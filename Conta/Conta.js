@@ -1,14 +1,11 @@
-import { Cliente } from "./Cliente.js";
+export class Conta{
 
-export class ContaCorrente{
-    static numeroDeContas = 0;
-    agencia;
-    _cliente;
-   // #saldo =0 https://github.com/tc39/proposal-class-fields#private-fields
-   _saldo = 0;
-    
-
-
+	constructor(saldoInicial, cliente, agencia){
+		this._saldo = saldoInicial
+		this._cliente = cliente
+		this._agencia = agencia
+	}
+	
     set cliente(novoValor){
         if(novoValor instanceof Cliente){
             this._cliente = novoValor;
@@ -23,19 +20,21 @@ export class ContaCorrente{
         return this._saldo;
     }
 
-    constructor(agencia, cliente){
-        this.agencia = agencia;
-        this.cliente = cliente;
-        ContaCorrente.numeroDeContas += 1;
-    }
 
 
     sacar(valor){
-        if(this._saldo >= valor){
-            this._saldo -= valor;
-            return valor;
-        }
-    }
+		throw new Error("Método não definido")
+    }	
+	
+	_sacar(valor, taxa){
+		const valorSacado = taxa * valor		   
+		if(this._saldo >= valorSacado){
+			this._saldo -= valorSacado;
+			return valorSacado;
+		}	
+		
+		return 0
+	}
 
     depositar(valor){
         if(valor <= 0)
@@ -50,5 +49,6 @@ export class ContaCorrente{
         const valorSacado = this.sacar(valor);
         conta.depositar(valorSacado);
         
-    }
+    }	
+	
 }
